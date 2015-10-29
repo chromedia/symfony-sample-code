@@ -1,0 +1,22 @@
+<div>
+    <div>
+        <div class="selectpicker">
+            <select>
+                <option></option>
+            </select>
+        </div>
+        <div class="selectpicker">
+            <select name="moveElement[behavior]">
+                <option value="click">Click</option>
+                <option value="change">Change</option>
+            </select>
+        </div>
+        <div class="selectpicker">
+            <select name="moveElement[elementFormQuestion]">
+                <option ng-repeat-start="(gIndex, each) in formProperties | filter: {tab: currentTab}" ng-if="each.formQuestion" ng-value="id">
+                    {{ '{{ each.formQuestion.question }}' }}
+                </option>            
+            </select>
+        </div>
+    </div>
+</div>

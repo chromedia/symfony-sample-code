@@ -1,0 +1,9 @@
+parameters:
+    form_builder_config_js:
+        form_html_elements: %form_builder.form_html_elements%
+        render_config_properties: %form_builder.render_config_properties%
+        default_render_config: %form_builder.default_render_config%
+        render_config_widget_sizes: %form_builder.render_config_widget_sizes%
+        render_config_display_types: %form_builder.render_config_display_types%
+
+    tinymce_config_js: ~

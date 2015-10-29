@@ -1,0 +1,47 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with {
+        title: 'Move "<em style="font-weight: normal" ng-bind="limitString(formPropertyToMove.formElement.elementType == CFB_CONFIG.questionType ? formPropertyToMove.formQuestion.question : formPropertyToMove.formElement.text, questionStringLimit)"></em>" to:', 
+        templateId: 'dialog.question.moveSettings' } %}
+
+    {% block content %}
+        <div id="move-settings" class="form-inline">
+            <div class="form-group">
+                <label for="">Tab</label>
+                <div class="selectpicker">
+                    <select 
+                        ng-model="selectedFormSection"
+                        ng-change="selectFormSection()" 
+                        ng-options="(formPropertyToMove.formElement.formSection == each.id ? 'Current Tab' : each.name) for each in form.formSections track by each.id">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Position</label>
+                <div class="selectpicker">
+                    <select 
+                        ng-model="questionPosition"
+                        ng-change="selectQuestionPosition()"
+                        ng-init="questionPosition = questionPositions[0]"
+                        ng-options="each for each in questionPositions track by each">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Question / Html Element</label>
+                <div class="selectpicker">
+                    <select 
+                        disabled="disabled"
+                        ng-model="selectedFormProperty"
+                        ng-init="selectedFormProperty = filteredFormQuestions[0]" 
+                        ng-options="(each.formElement.elementType == CFB_CONFIG.questionType ? each.formQuestion.question : ('[' + each.formElement.text + ']')) for each in selectedTabFormProperties track by each.formElement.id">
+                </select>
+                </div>
+            </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="move()">Move</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Cancel</button>
+        </div>
+    {% endblock %}
+
+{% endembed %}

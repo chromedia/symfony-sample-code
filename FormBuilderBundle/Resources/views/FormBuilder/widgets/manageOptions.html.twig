@@ -1,0 +1,18 @@
+<ul ng-show="showManageOptions" ng-init="init(each.formElement);">
+     <li>
+        Manage Options
+        <a href="javascript:void(0)" ng-click="showManageOptions=false; refreshWidgetOptionPopupData();" class="pull-right">x</a>
+    </li>
+    <li ng-show="showOptionFieldContainer" ng-repeat="choice in widgetChoices track by $index">
+        <input ng-model="choice" ng-blur="updateWidgetOption($index, choice, widgetChoices);" />
+        <a href="javascript:void(0)" class="pull-right"
+            ng-click="removeWidgetOption($index, widgetChoices);">x</a>
+    </li>
+
+    <li>
+        <a href="javascript:void(0);" ng-click="addWidgetOption(widgetChoices);">Add Option</a>
+    </li>
+    <li style="text-align: right">
+      <a href="javascript:void(0);" ng-click="showManageOptions=false; saveWidgetOptions($event, each);">Save Options</a>
+    </li>
+</ul>

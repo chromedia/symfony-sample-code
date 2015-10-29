@@ -1,0 +1,72 @@
+<div id="formBuilderSection" ng-show="currentTab != 0 && formSectionEditMode == 0" class="canvas create">
+    <form novalidate>
+        <div class="assistance" ng-repeat-start="(gIndex, each) in formProperties|filter:{ tab: currentTab }:true" ng-if="each.formQuestion">
+            <div class="tag" ng-show="each.formElement.renderConfig.display_helptext" ng-bind="each.counter"></div>
+            <div class="helptext" ng-show="each.formElement.renderConfig.display_helptext">
+              <div ng-click="openEditHelptext(each)" class="display-mode" ng-bind-html="helptextToHtml(each.formQuestion.helpText)" title="click here to add or edit helptext"></div>
+            </div>
+        </div>
+
+        <div class="widget-container gr {{ '{{ each.formElement.renderConfig.widget_size }}' }}" style="display: {{ '{{ each.formElement.renderConfig.render_as }}' }}">
+            <div class="op-menu" ng-init="isLockedIcon = !isSuperAdminUser() && each.formElement.elementType == CFB_CONFIG.questionType && each.formElement.isLocked">
+                <a href="javascript:void(0)" class="close" ng-class="{'lock': isLockedIcon }" ng-click="$parent.removeFormWidget(each)">{{ "{{ !isLockedIcon ? 'x' : '' }}" }}</a>
+
+                {# Manage Widget Options #}
+                <div ng-controller="widgetOptionController" ng-if="widgetWithChoices | inArray : each.formElement.widgetMetadata.widget_id">
+                    <a href="javascript:void(0)" class="manage" ng-class="{active:showManageOptions}" ng-click="showManageOptions = true">manage options</a>
+                    {% include 'FormBuilderBundle:FormBuilder:widgets/manageOptions.html.twig' %}
+                </div>
+                {# Manage Widget Options #}
+
+                {# Edit Property #}
+                <div>
+                    <a href="javascript:void(0)" class="option" ng-class="{active:showEditProperty}" ng-click="showEditProperty = true" ng-show="each.formElement.widgetMetadata.name != 'separator'">show</a>
+                    {% include 'FormBuilderBundle:FormBuilder:widgets/editWidget.html.twig' %}
+                </div>
+                {# End of Edit Property #}
+
+                <div>
+                    <a href="javascript:void(0)" class="dependent" ng-class="{active: showEditDependent}" ng-show="each.formElement.elementType == CFB_CONFIG.questionType" ng-click="showQuestionDependencyConfig(each)">set as dependent</a>
+                </div>
+
+                {# IRS Form Connection #}
+                <div ng-if="each.formElement.elementType == CFB_CONFIG.questionType">
+                  <a href="javascript:void(0)" class="link-form" ng-click="showLinkedFormQuestions = true; openLinkedFormQuestions(each);" ng-class="{active:showFormLinks}">forms</a>
+                  {# Manage Widget Options #}
+                  {% include 'FormBuilderBundle:FormBuilder:widgets/formQuestion.relatedFormQuestions.html.twig' %}
+                </div>
+                {# End of IRS Forms Connection #}
+
+                {#<div><a href="javascript:void(0)" class="down" ng-click="moveFormElementDown(each)">Down</a></div>
+                <div><a href="javascript:void(0)" class="up" ng-click="moveFormElementUp(each)">Up</a></div>#}
+                <div><a href="javascript:void(0)" class="move" ng-click="openMoveFormElement(each)">Move</a></div>
+            </div>
+            <span ng-if="each.formQuestion" ng-bind="each.counter" class="p-num"></span>
+    	    <input class="question-label display-mode" ng-model="each.formQuestion.question" ng-show="each.formElement.renderConfig.display_label" ng-blur="updateFormQuestion($event, each)" >
+
+    	    <input type="text" class="sublabel-label display-mode" ng-model="each.formQuestion.subLabel" ng-show="each.formElement.renderConfig.display_sublabel" ng-blur="updateFormQuestion($event, each)">
+
+    	    {# This element will generate the widgetElement #}
+            <div widget-element class="widget-elem-container"></div>
+
+            <input type="text" class="note-label display-mode" ng-model="each.formQuestion.notes" ng-show="each.formElement.renderConfig.display_note" ng-blur="updateFormQuestion($event, each)">
+            <label class="hidethis">
+                <input type="checkbox" ng-model="each.formElement.isHiddenToMember" ng-change="updateFormElement(each.formElement)" ng-checked="each.formElement.isHiddenToMember == 1">
+                Hide in member form
+            </label>
+            <label class="hidethis" ng-if="isSuperAdminUser() && each.formElement.elementType == CFB_CONFIG.questionType">
+               <input type="checkbox" ng-model="each.formElement.isLocked" ng-change="updateFormElement(each.formElement)" ng-checked="each.formElement.isLocked == 1">
+                Locked
+            </label>
+        </div>
+        <span ng-repeat-end></span>
+    </form>
+</div>
+
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.dependencyConfig.html.twig' %}
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.editHelptext.html.twig' %}
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.confirmDelete.html.twig' %}
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.moveSettings.html.twig' %}
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.restrictDelete.html.twig' %}
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.withDependents.html.twig' %}
+{% include 'FormBuilderBundle:FormBuilder:dialogs/question.irsFormQuestion.html.twig' %}

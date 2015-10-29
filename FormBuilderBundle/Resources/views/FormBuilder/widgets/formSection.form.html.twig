@@ -1,0 +1,22 @@
+<div id="formSectionSection" ng-show="currentTab != 0 && formSectionEditMode == 1" class="canvas ng-hide">
+    <form>
+        <div class="form-group">
+            <label>Tab Name *</label>
+            <span class="help-block">Tab name help text</span>
+            <input type="text" ng-model="currentFormSection.name" size="50"/>
+            <span ng-if="formError.section.name" ng-bind="formError.section.name.errors"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Tab Description</label>
+            <span class="help-block" style="color: #ccc">Form description help text</span>
+            <textarea ng-model="currentFormSection.description" ui-tinymce="tinymceConfig.tabDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Save" ng-click="updateFormSection()" class="btn btn-primary" ng-disabled="disabledSaveFormBtn"/>
+            &nbsp; 
+            <a href="javascript:void(0)" ng-click="removeFormSection(currentFormSection)">remove</a>
+        </div>
+    </form>
+</div>

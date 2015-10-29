@@ -1,0 +1,15 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with { templateId: 'dialog.question.withDependents' } %}
+
+    {% block content %}
+        <div class="ngdialog-message">
+            This question may not be moved to another tab nor removed <br/>
+            from the form because it has dependency relationships to other questions. <br/>
+            Please remove these dependency relationships before attempting to move or remove.
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    {% endblock %}
+
+{% endembed %}

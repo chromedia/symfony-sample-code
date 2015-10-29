@@ -1,0 +1,110 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with { title: 'Dependency Settings', templateId: 'dialog.question.dependencyConfig' } %}
+
+    {% block content %}
+        <div ng-if="currentFormProperty.formElement.renderConfig.parent_dependency">
+            <h2>Current Settings:</h2>
+            <ul class="current-config">
+                <li ng-repeat="(key, eachConfig) in currentFormProperty.formElement.renderConfig.parent_dependency">
+                    <ul>
+                        <li>
+                            <p>
+                                <strong>Show</strong>
+                                "<em ng-bind="currentFormProperty.formQuestion.question"></em>"
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong>If</strong>
+                                "<em ng-bind="eachConfig.parent_question.question"></em>"
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                <strong>is equal to</strong>
+                                "<em ng-bind="eachConfig.value"></em>"
+                            </p>
+                        </li>
+                        <li class="text-center">
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" ng-click="removeConfig(key)">x</a>
+                        </li>
+                    </ul>
+                    {#<em>on</em>
+                    "<span ng-bind="eachConfig.event"></span>" #}
+                </li>
+            </ul>
+        </div>
+
+        <ul class="dependency-config">
+            {#<li>IF</li>#}
+            <li>
+                <p>
+                    <strong>Show</strong> 
+                    "<em ng-bind="limitString(currentFormProperty.formQuestion.question, questionStringLimit)"></em>"
+                </p>
+            </li>
+            <li>
+                <strong>if</strong>&nbsp;
+                <div class="selectpicker">
+                    <select 
+                            ng-model="parentFormProperty"
+                            ng-change="dependencyConfig.value = parentFormProperty.formElement.widgetMetadata.widget_choices[0]"
+                            ng-options="each as getQuestionTitle(each) for each in formPropertiesWithFormQuestion">
+                    </select>
+                </div>
+            </li>
+            {#
+            <li>
+                <div class="selectpicker">
+                    <select ng-model="dependencyConfig.comparison">
+                        <option value="=">equal</option>
+                        <option value="!=">not equal</option>
+                    </select>
+                </div>
+            </li>
+            #}
+            <li ng-if="parentFormProperty.formElement.widgetMetadata.widget_choices">
+                <strong>is equal to</strong>&nbsp;
+                <div class="selectpicker condition-equal">
+                    <select 
+                        ng-init="dependencyConfig.value ? dependencyConfig.value : parentFormProperty.formElement.widgetMetadata.widget_choices[0]"
+                        ng-model="dependencyConfig.value" 
+                        ng-options="label for (key, label) in parentFormProperty.formElement.widgetMetadata.widget_choices">
+                    </select>
+                </div>
+            </li>
+            <li ng-if="parentFormProperty && parentFormProperty.formElement.widgetMetadata.widget_choices < 1">
+                <strong>is equal to</strong>&nbsp;
+                <input type="text" ng-model="dependencyConfig.value"/>
+            </li>
+            {#
+            <li>THEN</li>
+            <li>
+                <div class="selectpicker">
+                    <select ng-model="dependencyConfig.behavior">
+                        {% for eachBehavior in formQuestionBehavior %}
+                            <option value="{{ eachBehavior.name | lower }}">{{ eachBehavior.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </li>
+            <li>THIS QUESTION. &nbsp; </li>
+            
+            <li>on</li>
+            <li>
+                <div class="custom-dropdown">
+                    <select ng-model="dependencyConfig.event">
+                        <option value="click">Click</option>
+                        <option value="change">Change</option>
+                    </select>
+                </div>
+            </li>
+            #}
+            <li class="text-center">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="updateDependencyConfig()">+</button>
+            </li>
+        </ul>
+
+    {% endblock %}
+
+{% endembed %}

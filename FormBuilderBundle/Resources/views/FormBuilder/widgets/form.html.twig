@@ -1,0 +1,82 @@
+<div id="formSection" ng-show="currentTab == 0" class="canvas ng-hide">
+    <form>
+        <input type="hidden" id="formId" value="{{ formId }}"/>
+        <div class="form-group">
+            <label>Form Name *</label>
+{#             <span class="help-block">Form name help text</span>#}
+            <input type="text" ng-model="form.name" size="50"/>
+            <span ng-if="formError.name" ng-bind="formError.name.errors"></span>
+        </div>
+        <div class="form-group">
+            <label>Irs Form Name</label>
+{#             <span class="help-block">Form name help text</span>#}
+            <input type="text" ng-model="form.irsFormName" size="50" maxlength="100">
+        </div>
+        <div class="form-group span3">
+            <label>Wordpress Form</label>
+            <div class="selectpicker" style="width: 456px">
+                <select ng-model="form.wpFormId">
+                {% for id, name in wpForms %}
+                    <option value="{{ id }}">{{ name }}</option>
+                {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Form Description *</label>
+{#             <span class="help-block" style="color: #ccc">Form description help text</span>  #}
+            <textarea ng-model="form.description" ui-tinymce="tinymceConfig.formDescription"></textarea>
+            <span ng-if="formError.description" ng-bind="formError.description.errors"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Call out</label>
+{#             <span class="help-block" style="color: #ccc">First paragraph of the description</span>#}
+            <textarea ng-model="form.helpText" rows="6" cols="70"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Video link</label>
+{#             <span class="help-block" style="color: #ccc">Video Link</span>#}
+            <input type="text" ng-model="form.videoLink" size="30"/>
+        </div>
+
+        <div class="form-group">
+            <label>Price</label>
+{#             <span class="help-block" style="color: #ccc">Price</span>#}
+            <input type="text" ng-model="form.price" size="10"/>
+        </div>
+
+        
+        <div class='form-group'>
+            <label>Helpful Link</label>
+            <div ng-repeat="(key, eachFormLink) in form.formLinks">
+                <input type='text' size='20' ng-model='eachFormLink.title' placeholder="Title"/>
+                <span ng-if="formError.formLinks.children[key].children.title.errors" 
+                    ng-bind="formError.formLinks.children[key].children.title.errors"></span>
+                &nbsp;
+                <input type='text' size='25' ng-model='eachFormLink.link' placeholder="Link"/>
+                <span ng-if="formError.formLinks.children[key].children.link.errors" 
+                    ng-bind="formError.formLinks.children[key].children.link.errors"></span>
+                <a href='#' ng-show="form.formLinks.length > 1" ng-click='removeHelpfulLink($event, eachFormLink)'>Remove</a>
+            </div>
+
+            <a href="#" id="addHelpfulLink" ng-click="addHelpfulLink($event)">Add more helpful link</a>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px">
+            <label>Save as</label>
+            <label class="radio-inline">
+              <input type="radio" ng-model="form.status" value="1"> Active
+            </label>
+            <label class="radio-inline">
+              <input type="radio" ng-model="form.status" value="0"> Draft
+            </label>
+        </div>
+
+        <div class="form-group">
+            <input type="button" value="Save Form" ng-click="saveForm()" class="btn btn-primary" ng-disabled="disabledSaveFormBtn"/>
+        </div>
+    </form>
+</div>

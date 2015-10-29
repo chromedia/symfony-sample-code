@@ -1,0 +1,8 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with { title: 'Edit Help Text', templateId: 'dialog.question.editHelptext' } %}
+
+    {% block content %}
+        <textarea placeholder="click here to add helptext" ui-tinymce="tinymceConfig.helpText" class="display-mode" ng-model="currentFormProperty.formQuestion.helpText" ng-blur="updateFormQuestion($event, currentFormProperty)">click here add helptext</textarea>
+    {% endblock %}
+
+{% endembed %}

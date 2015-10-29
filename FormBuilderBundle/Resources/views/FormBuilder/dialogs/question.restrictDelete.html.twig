@@ -1,0 +1,14 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with { templateId: 'dialog.question.restrictDelete' } %}
+
+    {% block content %}
+        <div class="ngdialog-message">
+            This question is locked and may have been linked to the PDF output.<br>
+            Only "super admin" user can remove this question.
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Close</button>
+        </div>
+    {% endblock %}
+
+{% endembed %}

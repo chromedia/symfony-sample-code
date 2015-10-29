@@ -1,0 +1,13 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with { templateId: 'dialog.question.confirmDelete' } %}
+
+    {% block content %}
+	   <div class="ngdialog-message">
+	       This question is currently locked and may have been linked to the PDF output.&nbsp; Are you sure you want to remove it?</div>
+	   <div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Cancel</button>
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm()">Remove</button>
+		</div>    
+    {% endblock %}
+
+{% endembed %}

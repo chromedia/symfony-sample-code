@@ -1,0 +1,7 @@
+admin_formBuilder:
+    path:     /admin/form-builder/{id}
+    defaults: { _controller: FormBuilderBundle:FormBuilder:index, id: ~ }
+
+formBuilder_config_js:
+    path: /formBuilderConfig.js
+    defaults: { _controller: FormBuilderBundle:FormBuilder:configJs }

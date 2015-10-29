@@ -1,0 +1,11 @@
+<script type="text/ng-template" id="{{ templateId }}">
+
+    {% if title is defined %}
+        <h5><strong>{{ title | raw }}</strong></h5>
+    {% endif %}
+
+    <div class="dialog-contents">
+        {% block content %}{% endblock %}
+	</div>
+
+</script>

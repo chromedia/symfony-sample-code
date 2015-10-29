@@ -1,0 +1,52 @@
+<ul ng-show="showEditProperty" class="edit-property-container">
+    <li>
+        Edit
+        <a href="javascript:void(0)" ng-click="showEditProperty = false" class="pull-right close-btn">x</a>
+    </li>
+    <li ng-show="each.formElement.elementType == CFB_CONFIG.questionType">
+        <label ng-bind="CFB_CONFIG.render_config_properties.display.label"></label>
+        <div class="selectpicker">
+            <select ng-model="each.formElement.renderConfig.render_as" ng-change="updateFormElement(each.formElement)">
+                <option ng-repeat="eachDisplayType in CFB_CONFIG.render_config_display_types" value="{{ '{{ eachDisplayType.value }}' }}" ng-selected="each.formElement.renderConfig.render_as == eachDisplayType.value">{{ '{{ eachDisplayType.label }}' }}</option>
+            </select>
+        </div>
+    </li>
+    <li ng-show="each.formElement.elementType == CFB_CONFIG.questionType">
+        <label ng-bind="CFB_CONFIG.render_config_properties.size.label"></label>
+        <div class="selectpicker">
+            <select ng-model="each.formElement.renderConfig.widget_size" ng-change="updateFormElement(each.formElement)">
+                <option ng-repeat="eachWidgetSize in CFB_CONFIG.render_config_widget_sizes" value="{{ '{{ eachWidgetSize.value }}' }}" ng-selected="each.formElement.renderConfig.widget_size == eachWidgetSize.value">{{ '{{ eachWidgetSize.label }}' }}</option>
+            </select>
+        </div>
+    </li>
+    <li ng-show="each.formElement.elementType == CFB_CONFIG.questionType">
+        <label>
+            <input type="checkbox" ng-model="each.formElement.renderConfig.display_label" ng-change="updateFormElement(each.formElement)">
+            {{ '{{ CFB_CONFIG.render_config_properties.label.label }}' }}
+        </label>
+
+        <label>
+            <input type="checkbox" ng-model="each.formElement.renderConfig.display_sublabel" ng-change="updateFormElement(each.formElement)">
+            {{ '{{ CFB_CONFIG.render_config_properties.sublabel.label }}' }}
+        </label>
+
+        <label>
+            <input type="checkbox" ng-model="each.formElement.renderConfig.display_example" ng-change="updateFormElement(each.formElement)">
+            {{ '{{ CFB_CONFIG.render_config_properties.placeholder.label }}' }}
+        </label>
+
+        <label>
+            <input type="checkbox" ng-model="each.formElement.renderConfig.display_note" ng-change="updateFormElement(each.formElement)">
+            {{ '{{ CFB_CONFIG.render_config_properties.note.label }}' }}
+        </label>
+        
+        <label>
+            <input type="checkbox" ng-model="each.formElement.renderConfig.display_helptext" ng-change="updateFormElement(each.formElement)">
+            {{ '{{ CFB_CONFIG.render_config_properties.helptext.label }}' }}
+        </label>
+    </li>
+
+    <li ng-show="each.formElement.elementType == CFB_CONFIG.htmlElementType">
+        <textarea ng-model="each.formElement.text" ng-blur="updateFormElement(each.formElement)" rows="5"></textarea>
+    </li>
+</ul>

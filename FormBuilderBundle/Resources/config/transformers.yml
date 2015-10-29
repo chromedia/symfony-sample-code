@@ -1,0 +1,13 @@
+services:
+    form.dateTransformer:
+        class: YPKY\FormBuilderBundle\Form\Type\DataTransformer\DateTransformer
+        # tags:
+        #     -  { name: form.date_transformer }
+
+    form.multipleSelectTransformer:
+        class: YPKY\FormBuilderBundle\Form\Type\DataTransformer\MultipleSelectTransformer
+
+    form.fileTransformer:
+        class: YPKY\FormBuilderBundle\Form\Type\DataTransformer\FileTransformer
+        calls:
+            - [ setUploadPath, ["%form_builder.file.upload_path%"]]

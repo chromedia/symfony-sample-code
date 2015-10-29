@@ -1,0 +1,100 @@
+{% extends 'AdminBundle::layout.html.twig' %}
+{% set formbuilderTab = 'formBuilder' %}
+
+{% block subnav %}
+    {% include 'AdminBundle::widgets/formBuilder.nav.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <div class="col-sm-12 col-md-12 dashbox">
+        <div id="form-builder-container" ng-app="formBuilderApp" style="display:none">
+            <h1>{{ form ? form.getName : 'Create Form' }}</h1>
+            <div ng-controller="formBuilderController">
+                <div ng-show="form.id" class="builder-menu">
+                  <a href="javascript:void(0)" ng-class="{active:currentTab == 0}" ng-click="showTab(null, $event)" class="hbtn"><span></span>Edit Details</a>
+                  <a href="javascript:void(0)" ng-click="addFormSection()" class="hbtn"><span class="add"></span>Add Tabs</a>
+                  <button class="show-questions pull-right" ng-show="currentTab">show tools</button>
+                </div>
+
+                <ul id="sortable-tab" role="tablist" class="tabs" ng-model="form.formSections">
+                    <li class="sortable-item" ng-repeat="formSection in form.formSections" data-index="{{ '{{ $index }}'}}">
+                        <a href="javascript:void(0)" ng-class="{active:currentTab == formSection.id}" ng-click="showTab(formSection, $event)">
+                            <span>PART {{ '{{ numberToRoman($index + 1) }}' }}</span>
+                            {{ '{{ formSection.name }}' }}
+                            <span class="edit">edit</span>
+                        </a>
+                    </li>
+                </ul>
+
+                {# Create/Edit Form Template #}
+                {% include 'FormBuilderBundle:FormBuilder:widgets/form.html.twig' %}
+
+                {# FormSection Template #}
+                {% include 'FormBuilderBundle:FormBuilder:widgets/formSection.form.html.twig' %}
+
+                {# FormBuilder Template #}
+                {% include 'FormBuilderBundle:FormBuilder:widgets/formBuilder.html.twig' %}
+
+                {# FormQuestions Template #}
+                {% include 'FormBuilderBundle:FormBuilder:widgets/formQuestions.html.twig' %}
+
+                {# Angular Bootstrap UI Alert #}
+                <div class="alert-container">
+                    <alert ng-repeat="alert in alerts" type="{{ '{{ alert.type }}' }}" close="closeAlert($index)">
+                        <strong ng-bind="alert.heading"></strong>
+                        {{ '{{ alert.message }}' }}
+                    </alert>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+
+    {% stylesheets
+            'bundles/formbuilder/css/angular/ngDialog.min.css'
+            'bundles/formbuilder/css/angular/ngDialog-theme-default.min.css'
+            'bundles/formbuilder/css/angular/angular-growl.min.css'
+            output='formbuilder/compiled-styles.css'
+        %}
+        <link href="{{ asset_url }}" rel="stylesheet"/>
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {# this helper will list all the configured widgets for CWFB #}
+    <script src="{{ path('_cwfb_available_widgets_js')}}" type="text/javascript"></script>
+    <script src="{{ path('formBuilder_config_js')}}" type="text/javascript"></script>
+
+    {% javascripts
+        'bundles/formbuilder/js/angular/angular.min.js'
+        'bundles/formbuilder/js/angular/underscore-min.js'
+        'bundles/formbuilder/js/angular/restangular.min.js'
+        'bundles/formbuilder/js/angular/ngDialog.min.js'
+        'bundles/formbuilder/js/angular/tinymce.js'
+        'bundles/formbuilder/js/angular/ui-bootstrap-tpls-0.12.0.min.js'
+        'bundles/formbuilder/js/Sortable.min.js'
+        'bundles/chromediawidgetformbuilder/js/htmlWidgetFactory.js'
+        'bundles/chromediawidgetformbuilder/js/htmlWidget.js'
+        'bundles/formbuilder/js/formBuilderApp.js'
+        'bundles/formbuilder/js/formBuilderDataService.js'
+        'bundles/formbuilder/js/formBuilderApiService.js'
+        'bundles/formbuilder/js/irsFormQuestionApiService.js'
+        'bundles/formbuilder/js/Service/formBuilderHelper.js'
+        'bundles/formbuilder/js/sortableTab.js'
+        'bundles/formbuilder/js/Controller/irsFormQuestionController.js'
+        'bundles/formbuilder/js/formBuilderController.js'
+        'bundles/formbuilder/js/Controller/widgetOptionController.js'
+        'bundles/formbuilder/js/Controller/moveFormElementController.js'
+        'bundles/formbuilder/js/Controller/questionDependencyController.js'
+        'bundles/formbuilder/js/index.js'
+        output='formbuilder/compiled-index.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

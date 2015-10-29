@@ -1,0 +1,40 @@
+<ul class="form-links" ng-show="showLinkedFormQuestions">
+     <li>
+        Forms
+        <a href="javascript:void(0)" ng-click="showLinkedFormQuestions = false" class="pull-right">x</a>
+    </li>
+    <li ng-hide="each.formQuestion.irsFormQuestion.id">
+        <a href="javascript:void(0);" ng-click="openLinkFormConfig(each);">Link to an IRS Form Question</a>
+    </li>
+    <li class="head link-entry">
+        <ul>
+            <li>YKY Form</li>
+            <li>Section</li>
+            <li>YKY Question</li>
+        </ul>
+    </li>
+    <li ng-show="each.formQuestion.irsFormQuestion.id" class="link-entry irs" ng-click="openLinkFormConfig(each)" style="cursor: pointer">
+        <ul>
+            <li tooltip="{{ '{{ form.irsFormName ? form.irsFormName : form.name }}' }}">
+                <span ng-hide="form.irsFormName" ng-bind="form.name"></span>
+                <span ng-show="form.irsFormName" ng-bind="form.irsFormName"></span>
+            </li>
+            <li tooltip="{{ '{{ each.formQuestion.irsFormQuestion.irsSection }}' ~ ': ' ~ '{{ each.formQuestion.irsFormQuestion.irsQuestionNo }}' }}">
+                <span ng-bind="each.formQuestion.irsFormQuestion.irsSection"></span>: 
+                <span ng-bind="each.formQuestion.irsFormQuestion.irsQuestionNo"></span>
+            </li>
+            <li ng-bind="each.formQuestion.irsFormQuestion.irsQuestion" tooltip="{{ '{{ each.formQuestion.irsFormQuestion.irsQuestion }}' }}"></li>
+        </ul>
+    </li>
+    <li ng-repeat="eachRelatedQuestion in each.relatedFormQuestions" class="link-entry">
+        <ul ng-init="relatedFormQuestion = prepareRelatedFormQuestion(eachRelatedQuestion.form, eachRelatedQuestion.formElement.formSection, eachRelatedQuestion)">
+            <li ng-bind="relatedFormQuestion.formName" tooltip="{{ '{{ relatedFormQuestion.formName }}' }}"></li>
+            <li ng-bind="relatedFormQuestion.section" tooltip="{{ '{{ relatedFormQuestion.section }}' }}"></li>
+            <li ng-bind="relatedFormQuestion.question" tooltip="{{ '{{ relatedFormQuestion.question }}' }}"></li>
+        </ul>
+    </li>
+    <li ng-if="each.relatedFormQuestions.length == 0">
+        <center ng-if="fetchingRelatedFormQuestions == 1">Loading related Form Questions....</center>
+        <center ng-if="fetchingRelatedFormQuestions == 0">This question does not exists in any forms yet.</center>
+    </li>
+</ul>

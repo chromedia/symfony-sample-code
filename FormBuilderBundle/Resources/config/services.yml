@@ -1,0 +1,102 @@
+imports:
+    - { resource: transformers.yml }
+
+parameters:
+    form_builder.twig.class: YPKY\FormBuilderBundle\Twig\FormBuilderTwigExtension
+
+services:
+    form_builder.controller:
+        class: YPKY\FormBuilderBundle\Controller\FormBuilderController
+        public: true
+        scope: request
+
+    # Currently not being used. Use FormProductFactory instead
+    #form_builder.form_factory:
+    #    class: YPKY\FormBuilderBundle\Services\FormFactory
+    #    calls:
+    #        - [setCoreFormFactory, [@form.factory]]
+    #        - [setFieldTypeFactory, [@cwfb.field_type_factory]]
+    #        - [setDoctrine, [@doctrine]]
+    #        - [setRenderConfigParser, [@form_element.render_config_parser]]
+
+    form_builder.form_product_factory:
+        class: YPKY\FormBuilderBundle\Services\FormProductFactory
+        calls:
+            - [setSecurityContext, [@security.context]]
+            - [setCoreFormFactory, [@form.factory]]
+            - [setFieldTypeFactory, [@cwfb.field_type_factory]]
+            - [setDoctrine, [@doctrine]]
+            - [setRenderConfigParser, [@form_element.render_config_parser]]
+            - [setFormWidgetDefaultConstraints, [%form_builder.form_widget_default_constaints%]]
+            - [setUsStateTemplateName, [%product.question_template_names%]]
+
+    form_builder.file_uploader:
+        class: YPKY\FormBuilderBundle\Services\FileUploader
+        calls:
+            - [setUploadDirectory, ['%form_builder.file.upload_path%']]
+
+    form_builder.form_type_extension:
+        class: YPKY\FormBuilderBundle\Form\Extension\FormTypeExtension
+        tags:
+            - { name: form.type_extension, alias: form }
+
+    form_element.render_config_parser:
+        class: YPKY\FormBuilderBundle\Services\FormElementRenderConfigParser
+        calls:
+            - [setRenderConfigProperties, [%form_builder.render_config_properties%]]
+
+# custom form types
+
+    ## Yes/No radio field
+    form.yes_no_type:
+        class: YPKY\FormBuilderBundle\Form\YesNoFieldType
+        tags:
+            - { name: form.type, alias: yes_no_widget }
+
+    ## With date picker
+    form.date_picker_type:
+        class: YPKY\FormBuilderBundle\Form\DatePickerType
+        tags:
+            - { name: form.type, alias: date_picker }
+
+
+    form.custom_form_element_type:
+        class: YPKY\FormBuilderBundle\Form\CustomFormElementType
+        tags:
+            - { name: form.type, alias: custom_form_element }
+
+    form.custom_file_type:
+        class: YPKY\FormBuilderBundle\Form\CustomFileUploadType
+        calls:
+            - [setViewTransformer, [@form.custom_file.view_transformer]]
+        tags:
+            - { name: form.type, alias: custom_file }
+
+    form.custom_image_file_type:
+        class: YPKY\FormBuilderBundle\Form\CustomImageUploadType
+        calls:
+            - [setViewTransformer, [@form.custom_file.view_transformer]]
+        tags:
+            - { name: form.type, alias: custom_image_file }
+
+    form.custom_file_type_extension:
+        class: YPKY\FormBuilderBundle\Form\Extension\CustomFileTypeExtension
+        tags:
+            - { name: form.type_extension, alias: custom_file }
+        calls:
+            - [setUploadDirectory, ['%form_builder.file.upload_path%']]
+
+    form.custom_image_file_type_extension:
+        class: YPKY\FormBuilderBundle\Form\Extension\CustomImageFileTypeExtension
+        tags:
+            - { name: form.type_extension, alias: custom_image_file }
+
+    form.custom_file.view_transformer:
+        class: YPKY\FormBuilderBundle\Form\Transformer\CustomFileTypeViewTransformer
+        calls:
+            - [ setUploadDirectory, ['%form_builder.file.upload_path%']]
+
+    services.numberToRoman.twig.extension:
+        class: YPKY\FormBuilderBundle\Twig\NumberToRomanTwigExtension
+        tags:
+            - { name: twig.extension }

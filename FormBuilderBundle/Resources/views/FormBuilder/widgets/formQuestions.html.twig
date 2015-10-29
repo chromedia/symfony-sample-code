@@ -1,0 +1,28 @@
+<div id="form-questions" class="panel col-xs-4 minimize" ng-show="currentTab">
+    <button class="hide-questions"> > </button>
+    <div class="menu" ng-init="activeTab = 1">
+        <h2>Add {{ '{{ activeTab == 1 ? "Question" : "Element" }}' }}</h2>
+        <a href="javascript:void(0)" class="tl-a" ng-class="{active:activeTab == 1}" ng-click="activeTab = 1">questions</a>
+        <a href="javascript:void(0)" class="tl-b" ng-class="{active:activeTab == 2}" ng-click="activeTab = 2">elements</a>
+    </div>
+
+    <input type="text" align="left" size="32px" value="Search" ng-model="questionFilter.question">
+
+    <div class="list questions" ng-show="activeTab == 1">
+        <ul>
+            <li ng-repeat="(i, each) in questions | filter:questionFilter">
+                {{ '{{ each.question }}' }}
+                <button ng-click="addQuestion(each)">Add</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="list elements" ng-show="activeTab == 2">
+        <ul>
+            <li ng-repeat="eachElem in CFB_CONFIG.form_html_elements">
+                {{ '{{ eachElem.label }}' }}
+                <button ng-click="addElement(eachElem)">Add</button>
+            </li>
+        </ul>
+    </div>
+</div>

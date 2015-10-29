@@ -1,0 +1,40 @@
+{% embed 'FormBuilderBundle:FormBuilder:dialogs/ngDialogTemplate.html.twig' 
+    with { title: 'Link to IRS Form Question', templateId: 'question.irsFormQuestion' } %}
+
+    {% block content %}
+{#         <p><b>PHONE NUMBER</b> will be related to the IRS form below.</p>#}
+        <form novalidate>
+            <div class="link-form-config">
+                <div class="form-group box-2b4">
+                    <label>IRS Form Name</label>
+{#                     <span class="help-block">A little help text to explain the label.</span>#}
+                    <span ng-bind="form.irsFormName">
+                </div>
+                <div class="form-group box-3b3">
+                    <label>IRS Section</label>
+                    <input type="text" ng-model="currentFormProperty.formQuestion.irsFormQuestion.irsSection">
+                </div>    
+                <div class="form-group box-3b3 ml-25">
+                    <label>IRS Question #</label>
+                    <input type="text" ng-model="currentFormProperty.formQuestion.irsFormQuestion.irsQuestionNo">
+                </div>    
+                <div class="form-group">
+                    <label>IRS Question</label>
+                    <textarea name="" id="" cols="70" rows="3" ng-model="currentFormProperty.formQuestion.irsFormQuestion.irsQuestion"></textarea>
+                </div>    
+                <div class="form-group box-2b4">
+                    <label>Developer Notes</label>
+                    <span class="help-block">A little help text to explain the label.</span>
+                    <textarea name="" id="" cols="70" rows="3" ng-model="currentFormProperty.formQuestion.irsFormQuestion.developersNotes"></textarea>
+                </div>    
+            </div>
+    
+            <div class="ngdialog-buttons">
+                <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="saveIrsQuestion()" ng-disabled="savingIrsFormQuestion">Save & Lock Question</button>
+                <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">Cancel</button>
+            </div>
+        </form>
+
+    {% endblock %}
+
+{% endembed %}
